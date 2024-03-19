@@ -53,13 +53,17 @@ namespace BasicAPI.Controllers
         // GET api/values/5
         public IHttpActionResult Get(int id)
         {
-            Dictionary<string, string> book = new Dictionary<string, string>();
+            List<Book> booklist = new List<Book>();
             DataTable bookDT = dbContext.getBookById(id);
             if (bookDT != null && bookDT.Rows.Count > 0)
             {
                 DataRow dr = bookDT.Rows[0];
-                book.Add(dr["Name"].ToString(), dr["Author"].ToString());
-                return Ok(book);
+                Book book = new Book();
+                book.Id = (Int32)dr["Id"];
+                book.Name = dr["Name"].ToString();
+                book.Author = dr["Author"].ToString();
+                booklist.Add(book);             
+                return Ok(booklist);
             }
             else
             {
